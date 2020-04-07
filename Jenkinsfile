@@ -45,8 +45,8 @@ pipeline (
                                                         script {
                                                             sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeythecking=no $USERNAME@$prod_ip \"docker pull yaserfekri/firstimage:${env.BUILD_NUMBER}\""
                                                             try {
-                                                                sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeythecking=no $USERNAME@$prod_ip \"docker stop yaserfekri/firstimage\""
-                                                                sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeythecking=no $USERNAME@$prod_ip \"docker rm yaserfekri/firstimage\""
+                                                                sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeythecking=no $USERNAME@$prod_ip \"docker stop firstimage\""
+                                                                sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeythecking=no $USERNAME@$prod_ip \"docker rm firstimage\""
                                                             } catch (err) {
                                                             echo: 'caught error: $err' 
                                                             }
