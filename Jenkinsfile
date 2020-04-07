@@ -14,7 +14,7 @@ pipeline {
               }
               steps {
                   script {
-                      app = docker.build("yaserfekri/firstimage") 
+                      app = docker.build("yaserfekri/train-schedule") 
                       app.inside {
                        sh 'echo $(curl localhost:8080)'
                       }
@@ -43,14 +43,14 @@ pipeline {
                           milestone(1)
                       withCredentials([usernamePassword(credentialsId: 'localwebserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                                                         script {
-                                                            sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeythecking=no $USERNAME@$prod_ip \"docker pull yaserfekri/firstimage:${env.BUILD_NUMBER}\""
+                                                            sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeythecking=no $USERNAME@$prod_ip \"docker pull yaserfekri/train-schedule:${env.BUILD_NUMBER}\""
                                                             try {
-                                                                sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeythecking=no $USERNAME@$prod_ip \"docker stop firstimage\""
-                                                                sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeythecking=no $USERNAME@$prod_ip \"docker rm firstimage\""
+                                                                sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeythecking=no $USERNAME@$prod_ip \"docker stop train-schedule\""
+                                                                sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeythecking=no $USERNAME@$prod_ip \"docker rm train-schedule\""
                                                             } catch (err) {
                                                             echo: 'caught error: $err' 
                                                             }
-                                                             sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeythecking=no $USERNAME@$prod_ip \"docker run  --restart always -name firstimage -p 8081:8080 -d yaserfekri/firstimage:${env.BUILD_NUMBER}\""
+                                                             sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeythecking=no $USERNAME@$prod_ip \"docker run  --restart always -name train-schedule -p 8081:8080 -d yaserfekri/train-schedule:${env.BUILD_NUMBER}\""
                   }
              }
        }
